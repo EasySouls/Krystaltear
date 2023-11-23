@@ -13,6 +13,8 @@ ACharacterBase::ACharacterBase()
 	PrimaryActorTick.bCanEverTick = true;
 	SetActorTickInterval(0.5f);
     AActor::SetActorTickEnabled(true);
+	
+	CombatSystemComponent = CreateDefaultSubobject<UCombatSystem>(TEXT("CombatSystemComponent"));
 }
 
 int ACharacterBase::GetHealth() const
@@ -259,6 +261,10 @@ void ACharacterBase::Tick(float DeltaTime)
 void ACharacterBase::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
+}
 
+UAbilitySystemComponent* ACharacterBase::GetAbilitySystemComponent() const
+{
+	return AbilitySystemComponent;
 }
 

@@ -3,6 +3,8 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "AbilitySystemInterface.h"
+#include "CombatSystem.h"
 #include "GameFramework/Character.h"
 #include "CharacterBase.generated.h"
 
@@ -42,9 +44,10 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_ThreeParams(FKeysAction,
 											   bool, IsSuccess);
 
 UCLASS()
-class KRYSTALTEAR_API ACharacterBase : public ACharacter
+class KRYSTALTEAR_API ACharacterBase : public ACharacter, public IAbilitySystemInterface
 {
 public:
+
 	ACharacterBase();
 
 	virtual void AddMovementInput(FVector WorldDirection, float ScaleValue, bool bForce) override;
@@ -58,6 +61,9 @@ public:
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+
+	// Getter for the Ability System Player Component
+	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Player|Movement", meta = (AllowPrivateAccess = "true"))
 	float NormalMaxWalkSpeed = 400.0f;
@@ -142,9 +148,18 @@ public:
 	FKeysAction OnKeyAction;
 	
 #pragma endregion
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
+
+	// Ability System Component. Required to use Gameplay Attributes and Gameplay Abilities.
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = "Abilities")
+	TObjectPtr<UAbilitySystemComponent> AbilitySystemComponent = nullptr;
+
+	// Combat System Component
+	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly)
+	TObjectPtr<UCombatSystem> CombatSystemComponent;
 	
 private:
 

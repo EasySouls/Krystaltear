@@ -7,6 +7,13 @@ public class Krystaltear : ModuleRules
 	public Krystaltear(ReadOnlyTargetRules Target) : base(Target)
 	{
 		PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
+		
+		PrivateDependencyModuleNames.AddRange(new string[]
+		{
+			"GameplayAbilities",
+			"GameplayTags",
+			"GameplayTasks"
+		});
 	
 		PublicDependencyModuleNames.AddRange(new string[]
 		{
@@ -17,7 +24,7 @@ public class Krystaltear : ModuleRules
 			"EnhancedInput",
 			"UMG",
 			"Slate",
-			"SlateCore"
+			"SlateCore",
 		});
 
 		// Uncomment if you are using Slate UI
